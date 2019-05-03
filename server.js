@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
-require("dotenv").config()
+require("dotenv").config();
 
 const items = require('./routes/api/items');
 
@@ -15,11 +15,7 @@ app.use(bodyParser.json());
 const db = require('./config/keys').mongoURI;
 
 // Connect to Mongo
-mongoose
-  .connect(db, {useNewUrlParser: true}) // Adding new mongo url parser
-  .then(() => console.log('MongoDB Connected...'))
-  .catch(err => console.log(err));
-
+mongoose.connect(process.env.MONGODB_URI || "mongodb://heroku_ktbvjms8:o0n4e3fmq8b0sc2v02m96gdlr@ds151416.mlab.com:51416/heroku_ktbvjms8");
 // Use Routes
 app.use('/api/items', items);
 
@@ -43,7 +39,7 @@ app.use(function (req, res, next) {
       });
 
       // ... other app.use middleware 
-app.use(express.static(path.join(__dirname, "client", "build")))
+app.use(express.static(path.join(__dirname, "client", "build")));
 
 // Right before your app.listen(), add this:
 app.get("*", (req, res) => {
